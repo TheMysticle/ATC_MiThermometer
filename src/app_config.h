@@ -76,7 +76,7 @@ extern "C" {
 #define TEST_PLM1 			0  // TB03F My Plant monitor
 
 #ifndef DEVICE_TYPE
-#define DEVICE_TYPE			DEVICE_MJWSD05MMC_EN
+#define DEVICE_TYPE			DEVICE_ZTH03
 #endif
 
 // supported services by the device (bits)
@@ -1823,24 +1823,16 @@ extern "C" {
 
 #define DEV_SERVICES ( SERVICE_OTA\
 		| SERVICE_OTA_EXT \
-		| SERVICE_PINCODE \
-		| SERVICE_BINDKEY \
-		| SERVICE_HISTORY \
 		| SERVICE_SCREEN \
-		| SERVICE_LE_LR \
-		| SERVICE_THS \
-		| SERVICE_RDS \
 		| SERVICE_KEY \
-		| SERVICE_TIME_ADJUST \
-		| SERVICE_TH_TRG \
-		| SERVICE_LED \
 )
 
 #define USE_EPD				0 // min update time ms
+#define SENSOR_SLEEP_MEASURE	0
 
 #define USE_SENSOR_CHT8305		0
 #define USE_SENSOR_CHT8215		0
-#define USE_SENSOR_AHT20_30		1
+#define USE_SENSOR_AHT20_30		0
 #define USE_SENSOR_SHT4X		0
 #define USE_SENSOR_SHTC3		0
 #define USE_SENSOR_SHT30		0
@@ -1860,19 +1852,19 @@ extern "C" {
 #define PULL_WAKEUP_SRC_PC2	PM_PIN_PULLUP_10K
 #define PULL_WAKEUP_SRC_PC3	PM_PIN_PULLUP_10K
 
-// I2C LCD
-#define I2C_SCL_LCD			GPIO_PB1
-#define I2C_SDA_LCD			GPIO_PB7
-#define PB1_INPUT_ENABLE	1
-#define PB1_DATA_OUT		0
-#define PB1_OUTPUT_ENABLE	0
-#define PB1_FUNC			AS_GPIO
-#define PB7_INPUT_ENABLE	1
-#define PB7_DATA_OUT		0
-#define PB7_OUTPUT_ENABLE	0
-#define PB7_FUNC			AS_GPIO
-#define PULL_WAKEUP_SRC_PB1	PM_PIN_PULLUP_10K
-#define PULL_WAKEUP_SRC_PB7	PM_PIN_PULLUP_10K
+// I2C LCD (TH03_ZBPS1.0: PA1=SCL, PD7=SDA)
+#define I2C_SCL_LCD			GPIO_PA1
+#define I2C_SDA_LCD			GPIO_PD7
+#define PA1_INPUT_ENABLE	1
+#define PA1_DATA_OUT		0
+#define PA1_OUTPUT_ENABLE	0
+#define PA1_FUNC			AS_GPIO
+#define PD7_INPUT_ENABLE	1
+#define PD7_DATA_OUT		0
+#define PD7_OUTPUT_ENABLE	0
+#define PD7_FUNC			AS_GPIO
+#define PULL_WAKEUP_SRC_PA1	PM_PIN_PULLUP_10K
+#define PULL_WAKEUP_SRC_PD7	PM_PIN_PULLUP_10K
 
 #define GPIO_TRG			GPIO_PB4
 #define PB4_INPUT_ENABLE	1
@@ -1881,21 +1873,22 @@ extern "C" {
 #define PB4_FUNC			AS_GPIO
 #define PULL_WAKEUP_SRC_PB4	PM_PIN_PULLDOWN_100K
 
-#define GPIO_LED			GPIO_PC0
-#define PC0_INPUT_ENABLE	1
-#define PC0_DATA_OUT		1
-#define PC0_OUTPUT_ENABLE	0
-#define PC0_FUNC			AS_GPIO
-#define PULL_WAKEUP_SRC_PC0	PM_PIN_PULLDOWN_100K
+// GPIO_PC0 DISABLED - crashes TH03_ZBPS1.0 board!
+//#define GPIO_LED			GPIO_PC0
+//#define PC0_INPUT_ENABLE	1
+//#define PC0_DATA_OUT		1
+//#define PC0_OUTPUT_ENABLE	0
+//#define PC0_FUNC			AS_GPIO
+//#define PULL_WAKEUP_SRC_PC0	PM_PIN_PULLDOWN_100K
 
 #if (DEV_SERVICES & SERVICE_KEY)
-// PC4 - key
-#define GPIO_KEY2			GPIO_PD4	// key "Connect"
-#define PD4_INPUT_ENABLE	1
-#define PD4_DATA_OUT		0
-#define PD4_OUTPUT_ENABLE	0
-#define PD4_FUNC			AS_GPIO
-#define PULL_WAKEUP_SRC_PD4 PM_PIN_PULLUP_1M
+// PD3 - key
+#define GPIO_KEY2			GPIO_PD3	// key "Connect"
+#define PD3_INPUT_ENABLE	1
+#define PD3_DATA_OUT		0
+#define PD3_OUTPUT_ENABLE	0
+#define PD3_FUNC			AS_GPIO
+#define PULL_WAKEUP_SRC_PD3 PM_PIN_PULLUP_10K
 
 #define RDS1_PULLUP			PM_PIN_PULLUP_1M
 #define GPIO_RDS1 			GPIO_PA0	// Reed Switch, Input

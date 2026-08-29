@@ -1128,6 +1128,12 @@ void main_loop(void) {
 		}
 		else {
 			// key2 off
+			if (ext_key.key2pressed && (new - ext_key.key_pressed_tik2 > 50*CLOCK_16M_SYS_TIMER_CLK_1MS) && (new - ext_key.key_pressed_tik2 < 1750*CLOCK_16M_SYS_TIMER_CLK_1MS)) {
+#if (DEV_SERVICES & SERVICE_SCREEN)
+				cfg.flg.temp_F_or_C ^= 1;
+				SET_LCD_UPDATE();
+#endif
+			}
 			ext_key.key2pressed = 0;
 			ext_key.key_pressed_tik1 = new;
 			ext_key.key_pressed_tik2 = new;
@@ -1195,7 +1201,9 @@ void main_loop(void) {
 #endif
 		if (wrk.start_measure) {
 			wrk.start_measure = 0;
+#if (DEV_SERVICES & (SERVICE_THS | SERVICE_18B20 | SERVICE_PLM | SERVICE_IUS))
 			read_sensors();
+#endif
 #if (DEV_SERVICES & SERVICE_ILLUMI)
 			read_illumi_sensor();
 #else
@@ -1301,7 +1309,7 @@ void main_loop(void) {
 				if (lcd_flg.update) {
 					lcd_flg.update = 0;
 					if (!lcd_flg.b.ext_data_buf) { // LCD show external data ? No
-						lcd();
+						lcd(); 
 					}
 					update_lcd();
 				}

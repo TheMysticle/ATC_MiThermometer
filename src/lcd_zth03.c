@@ -9,7 +9,7 @@
 
 RAM u8 lcd_i2c_addr;
 
-#define I2C_TCLK_US	24 // 24 us
+#define I2C_TCLK_US 2 // Match LKTMZL02 speed (2us)
 
 
 /*
@@ -150,15 +150,14 @@ int soft_i2c_send_byte(u8 addr, u8 b) {
 
 #if 1
 const u8 lcd_init_cmd[]	=	{
-		// LCD controller initialize:
-		0xea, // Set IC Operation(ICSET): Software Reset, Internal oscillator circuit
-		0xd8, // Mode Set (MODE SET): Display enable, 1/3 Bias, power saving
-		0xbc, // Display control (DISCTL): Power save mode 3, FRAME flip, Power save mode 1
-		0x80, // load data pointer
-		0xf0, // blink control off,  0xf2 - blink
+		// LCD controller initialize (matched to working LKTMZL02 VKL060 driver):
+		0xea, // System Set: Software Reset, Internal oscillator circuit
+		0xd8, // Mode Set: Display enable, 1/3 Bias, power saving
+		0xbc, // Display control: 52 Hz, FRAME flip, low power mode1
+		0xf0, // blink control off
 		0xfc, // All pixel control (APCTL): Normal
-		0x60,
-		0x00, 0x00,000,0x00,0x00,0x00,0x00,0x00,0x00
+		0x0B, // C=0, ADSET addr=0x0B: set RAM pointer to 0x0B (start of RAM), data follows
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 // clear 8 bytes of display RAM
 };
 
 #else
@@ -175,17 +174,14 @@ const u8 lcd_init_cmd[]	=	{
 
 void init_lcd(void){
 	lcd_i2c_addr = BL55028_I2C_ADDR << 1;
-	//display_cmp_buff[0] = 0;
+	display_cmp_buff[0] = 0x0B; // VKL060 RAM starts at 0x0B!
 	if(cfg.flg2.screen_off) {
 		if(lcd_send_i2c_byte(0xD0) || lcd_send_i2c_byte(0xEA)) // LCD reset
 			lcd_i2c_addr = 0;
 	} else {
-		if(lcd_send_i2c_buf((u8 *) lcd_init_cmd, sizeof(lcd_init_cmd)))
-			lcd_i2c_addr = 0;
-		else {
-			pm_wait_us(200);
-			send_to_lcd();
-		}
+		lcd_send_i2c_buf((u8 *) lcd_init_cmd, sizeof(lcd_init_cmd));
+		pm_wait_us(200);
+		send_to_lcd();
 	}
 }
 
@@ -264,7 +260,7 @@ _attribute_ram_code_
 __attribute__((optimize("-Os")))
 void show_big_number_x10(s16 number){
 	display_buff[3] &= ~BIT(3); // "-"
-	display_buff[2] = 0;
+	display_buff[2] &= BIT(3); // Preserve Degree C (SEG13)
 	if (number > 19995) {
 	   		display_buff[0] = LCD_SYM_H; // "H"
 	   		display_buff[1] = LCD_SYM_i; // "i"
