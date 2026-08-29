@@ -355,11 +355,11 @@ void set_hw_version(void) {
 
 	HW | LCD I2C   addr | SHTxxx   I2C addr | Note
 	-- | -- | -- | --
-	B1.4 | 0x3C | 0x70   (SHTC3) |  
-	B1.5 | UART! | 0x70   (SHTC3) |  
-	B1.6 | UART! | 0x44   (SHT4x) |  
+	B1.4 | 0x3C | 0x70   (SHTC3) |  
+	B1.5 | UART! | 0x70   (SHTC3) |  
+	B1.6 | UART! | 0x44   (SHT4x) |  
 	B1.7 | 0x3C | 0x44   (SHT4x) | Test   original string HW
-	B1.9 | 0x3E | 0x44   (SHT4x) |  
+	B1.9 | 0x3E | 0x44   (SHT4x) |  
 	B2.0 | 0x3C | 0x44   (SHT4x) | Test   original string HW
 
 	Version 1.7 or 2.0 is determined at first run by reading the HW line written in Flash.
@@ -750,9 +750,12 @@ static void start_tst_battery(void) {
 #if (DEVICE_TYPE == DEVICE_MJWSD06MMC)
 		send_i2c_byte(0x3E << 1, 0xD0);
 #endif
-#elif (DEVICE_TYPE == DEVICE_ZTH03) || (DEVICE_TYPE == DEVICE_TH03_ZBPS10) || (DEVICE_TYPE == DEVICE_LKTMZL02)
+#elif DEVICE_TYPE == DEVICE_ZTH03 || DEVICE_TYPE == DEVICE_TH03_ZBPS10
 		extern int lcd_soft_i2c_send_byte(u8 addr, u8 b);
 		lcd_soft_i2c_send_byte(0x3E << 1, 0xD0);
+#elif DEVICE_TYPE == DEVICE_LKTMZL02
+		extern int soft_i2c_send_byte(u8 addr, u8 b);
+		soft_i2c_send_byte(0x3E << 1, 0xD0);
 #endif
 #if USE_SENSOR_SHTC3
 		send_i2c_word(SHTC3_I2C_ADDR << 1, 0x98b0);  // Sleep command of the sensor
@@ -1128,12 +1131,6 @@ void main_loop(void) {
 		}
 		else {
 			// key2 off
-			if (ext_key.key2pressed && (new - ext_key.key_pressed_tik2 > 50*CLOCK_16M_SYS_TIMER_CLK_1MS) && (new - ext_key.key_pressed_tik2 < 1750*CLOCK_16M_SYS_TIMER_CLK_1MS)) {
-#if (DEV_SERVICES & SERVICE_SCREEN)
-				cfg.flg.temp_F_or_C ^= 1;
-				SET_LCD_UPDATE();
-#endif
-			}
 			ext_key.key2pressed = 0;
 			ext_key.key_pressed_tik1 = new;
 			ext_key.key_pressed_tik2 = new;
