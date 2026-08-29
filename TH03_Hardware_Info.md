@@ -27,9 +27,10 @@ This file documents the reverse-engineered hardware layout for the **TH03_ZBPS1.
 | **Pairing Button** | `PD3` | LOW (0) | Requires internal pull-up resistor (10K). Shorts to GND when pressed. A 1.75s hold triggers C/F swap, 5-7s triggers factory reset. |
 | **I2C SDA (LCD)** | `PD7` | N/A | Connected to VKL060 controller |
 | **I2C SCL (LCD)** | `PA1` | N/A | Connected to VKL060 controller |
+| **Sensor Power** | `PB0` | HIGH (1) | Provides power to the GXHTV4 sensor. Must be driven HIGH before reading. Also often used for VBAT measurement. |
+| **I2C SDA (Sensor)** | `PA0` | N/A | Connected to GXHTV4 |
+| **I2C SCL (Sensor)** | `PD4` | N/A | Connected to GXHTV4 |
 | **Crash Pins** | `PC0`, `PC1` | N/A | **DO NOT DRIVE THESE PINS.** Pulling these high/low or defining them as I/O immediately crashes the board. |
-
-*Note: The exact I2C pins for the GXHTV4 sensor and its dedicated power pin are currently undocumented and require further tracing.*
 
 ## Firmware Development Notes
 

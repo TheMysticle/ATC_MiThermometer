@@ -751,8 +751,8 @@ static void start_tst_battery(void) {
 		send_i2c_byte(0x3E << 1, 0xD0);
 #endif
 #elif (DEVICE_TYPE == DEVICE_ZTH03) || (DEVICE_TYPE == DEVICE_LKTMZL02)
-extern int soft_i2c_send_byte(u8 addr, u8 b);
-		soft_i2c_send_byte(0x3E << 1, 0xD0);
+		extern int lcd_soft_i2c_send_byte(u8 addr, u8 b);
+		lcd_soft_i2c_send_byte(0x3E << 1, 0xD0);
 #endif
 #if USE_SENSOR_SHTC3
 		send_i2c_word(SHTC3_I2C_ADDR << 1, 0x98b0);  // Sleep command of the sensor
@@ -817,6 +817,10 @@ void user_init_normal(void) {//this will get executed one time after power up
 #if USE_SENSOR_HX71X && (DEV_SERVICES & SERVICE_PRESSURE)
 	hx711_gpio_wakeup();
 #endif
+	
+	init_lcd();
+
+
 	// Read config
 	if(flash_read_cfg(&old_ver, EEP_ID_VER, sizeof(old_ver)) != sizeof(old_ver))
 		old_ver = 0;

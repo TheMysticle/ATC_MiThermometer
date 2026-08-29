@@ -77,7 +77,7 @@ const u8 display_numbers[] = {
 #define LCD_SYM_BAT	0x40	// battery
 
 
-void soft_i2c_start(void) {
+void lcd_soft_i2c_start(void) {
 	gpio_set_output_en(I2C_SCL_LCD, 0); // SCL set "1"
 	gpio_set_output_en(I2C_SDA_LCD, 0); // SDA set "1"
 	sleep_us(I2C_TCLK_US);
@@ -87,7 +87,7 @@ void soft_i2c_start(void) {
 	//sleep_us(10);
 }
 
-void soft_i2c_stop(void) {
+void lcd_soft_i2c_stop(void) {
 	gpio_set_output_en(I2C_SDA_LCD, 1); // SDA set "0"
 	sleep_us(I2C_TCLK_US);
 	gpio_set_output_en(I2C_SCL_LCD, 0); // SCL set "1"
@@ -95,7 +95,7 @@ void soft_i2c_stop(void) {
 	gpio_set_output_en(I2C_SDA_LCD, 0); // SDA set "1"
 }
 
-int soft_i2c_wr_byte(u8 b) {
+int lcd_soft_i2c_wr_byte(u8 b) {
 	int ret, i = 8;
 	while(i--) {
 		sleep_us(I2C_TCLK_US/2);
@@ -119,34 +119,34 @@ int soft_i2c_wr_byte(u8 b) {
 	return ret;
 }
 
-int soft_i2c_send_buf(u8 addr, u8 * pbuf, int size) {
+int lcd_soft_i2c_send_buf(u8 addr, u8 * pbuf, int size) {
 	int ret = 0;
-	soft_i2c_start();
-	ret = soft_i2c_wr_byte(addr);
+	lcd_soft_i2c_start();
+	ret = lcd_soft_i2c_wr_byte(addr);
 	if(ret == 0) {
 		while(size--) {
-			ret = soft_i2c_wr_byte(*pbuf);
+			ret = lcd_soft_i2c_wr_byte(*pbuf);
 			if(ret)
 				break;
 			pbuf++;
 		}
 	}
-	soft_i2c_stop();
+	lcd_soft_i2c_stop();
 	return ret;
 }
 
-int soft_i2c_send_byte(u8 addr, u8 b) {
+int lcd_soft_i2c_send_byte(u8 addr, u8 b) {
 	int ret;
-	soft_i2c_start();
-	ret = soft_i2c_wr_byte(addr);
+	lcd_soft_i2c_start();
+	ret = lcd_soft_i2c_wr_byte(addr);
 	if(ret == 0)
-		soft_i2c_wr_byte(b);
-	soft_i2c_stop();
+		lcd_soft_i2c_wr_byte(b);
+	lcd_soft_i2c_stop();
 	return ret;
 }
 
-#define lcd_send_i2c_byte(a)  soft_i2c_send_byte(lcd_i2c_addr, a)
-#define lcd_send_i2c_buf(b, a)  soft_i2c_send_buf(lcd_i2c_addr, (u8 *) b, a)
+#define lcd_send_i2c_byte(a)  lcd_soft_i2c_send_byte(lcd_i2c_addr, a)
+#define lcd_send_i2c_buf(b, a)  lcd_soft_i2c_send_buf(lcd_i2c_addr, (u8 *) b, a)
 
 #if 1
 const u8 lcd_init_cmd[]	=	{
