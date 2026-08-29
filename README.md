@@ -64,13 +64,13 @@ Access to github is already slowing down. Most Internet information resources ha
 | BLE and [Zigbee](https://github.com/pvvx/ZigbeeTLc)<br>[BZdevice](https://github.com/pvvx/BZdevice)  | BLE and [Zigbee](https://github.com/pvvx/ZigbeeTLc) | BLE and [Zigbee](https://github.com/pvvx/ZigbeeTLc) | BLE and [Zigbee](https://github.com/pvvx/ZigbeeTLc) | BLE |
 | ATC_vNN.bin | MHO_C401_vNN.bin & MHO_C401N_vNN.bin | CGG1_vNN.bin & CGG1N_vNN.bin | CGDK2_vNN.bin | BTH_vNN.bin & BTE_vNN.bin |
 
-| [MHO-C122 (2AWMOMHOC122)](https://pvvx.github.io/MHO_C122) | [Tuya ZigBee TH03](https://pvvx.github.io/TS0201_TZ3000_TH03/) | [Tuya ZigBee LKTMZL02](https://pvvx.github.io/LKTMZL02) | [Tuya ZigBee ZTH05](https://pvvx.github.io/TS0601_TZE204) |
+| [MHO-C122 (2AWMOMHOC122)](https://pvvx.github.io/MHO_C122) | [Tuya ZigBee TH03](https://pvvx.github.io/TS0201_TZ3000_TH03/) / ZBPS1.0 | [Tuya ZigBee LKTMZL02](https://pvvx.github.io/LKTMZL02) | [Tuya ZigBee ZTH05](https://pvvx.github.io/TS0601_TZE204) |
 |:--:|:--:|:--:|:--:|
 | <img src="https://pvvx.github.io/MHO_C122/img/MHO-C122.png" alt="MHO-C122 (2AWMOMHOC122)" width="120"/> | <img src="https://pvvx.github.io/ATC_MiThermometer/img/LYWSD03MMC.png" alt="TH03" width="120"/> |  <img src="https://pvvx.github.io/LKTMZL02/img/LKTMZL02.png" alt="LKTMZL02" width="120"/> | <img src="https://pvvx.github.io/TH-05/img/TH05V14.jpg" width="120"/> |
 | [Programmator](https://github.com/pvvx/ATC_MiThermometer/issues/339) | Zigbee OTA, [OTA](https://pvvx.github.io/ATC_MiThermometer/TelinkMiFlasher.html) | Zigbee OTA, [OTA](https://pvvx.github.io/ATC_MiThermometer/TelinkMiFlasher.html) |  [OTA](https://pvvx.github.io/ATC_MiThermometer/TelinkMiFlasher.html) |
 | BLE and [Zigbee](https://github.com/pvvx/ZigbeeTLc) | BLE and [Zigbee](https://github.com/pvvx/ZigbeeTLc) | BLE and [Zigbee](https://github.com/pvvx/ZigbeeTLc) | BLE and [Zigbee](https://github.com/pvvx/ZigbeeTLc) |
 | | | | modification required |
-| MHO_C122_vNN.bin | TH03_vNN.bin |LKTMZL02_vNN.bin | ZTH05_vNN.bin |
+| MHO_C122_vNN.bin | TH03_vNN.bin / TH03_ZBPS10_vNN.bin |LKTMZL02_vNN.bin | ZTH05_vNN.bin |
 
 | Tuya ZigBee<br>[ZY-ZTH02Pro](https://pvvx.github.io/ZY-ZTH02Pro) | Tuya ZigBee<br>[ZY-ZTH03Pro](https://pvvx.github.io/TS0201_TZ3000_v1w2k9dd) | [MJWSD06MMC](https://pvvx.github.io/MJWSD06MMC) | [TS0201_TZ3000_dnpd6ayp](https://pvvx.github.io/TS0201_TZ3000_dnpd6ayp) |
 |:--:|:--:|:--:|:--:|
