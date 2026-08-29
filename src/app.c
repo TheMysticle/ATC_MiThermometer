@@ -197,7 +197,7 @@ const cfg_t def_cfg = {
 #if (DEV_SERVICES & SERVICE_HISTORY)
 		.averaging_measurements = 180, // * measure_interval = 10 * 180 = 1800 sec = 30 minutes
 #endif
-#elif DEVICE_TYPE == DEVICE_ZTH03
+#elif (DEVICE_TYPE == DEVICE_ZTH03) || (DEVICE_TYPE == DEVICE_TH03_ZBPS10)
 		.flg2.adv_flags = true,
 		.advertising_interval = 80, // multiply by 62.5 ms = 5 sec
 		.measure_interval = 4, // * advertising_interval = 20 sec
@@ -750,7 +750,7 @@ static void start_tst_battery(void) {
 #if (DEVICE_TYPE == DEVICE_MJWSD06MMC)
 		send_i2c_byte(0x3E << 1, 0xD0);
 #endif
-#elif (DEVICE_TYPE == DEVICE_ZTH03) || (DEVICE_TYPE == DEVICE_LKTMZL02)
+#elif (DEVICE_TYPE == DEVICE_ZTH03) || (DEVICE_TYPE == DEVICE_TH03_ZBPS10) || (DEVICE_TYPE == DEVICE_LKTMZL02)
 		extern int lcd_soft_i2c_send_byte(u8 addr, u8 b);
 		lcd_soft_i2c_send_byte(0x3E << 1, 0xD0);
 #endif
@@ -817,10 +817,6 @@ void user_init_normal(void) {//this will get executed one time after power up
 #if USE_SENSOR_HX71X && (DEV_SERVICES & SERVICE_PRESSURE)
 	hx711_gpio_wakeup();
 #endif
-	
-	init_lcd();
-
-
 	// Read config
 	if(flash_read_cfg(&old_ver, EEP_ID_VER, sizeof(old_ver)) != sizeof(old_ver))
 		old_ver = 0;

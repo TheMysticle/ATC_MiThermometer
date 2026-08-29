@@ -192,7 +192,7 @@ void show_reboot_screen(void);
 extern u8 display_buff[LCD_BUF_SIZE], display_cmp_buff[LCD_BUF_SIZE];
 void show_small_number(s16 number, bool percent); // -9 .. 99
 
-#elif DEVICE_TYPE == DEVICE_ZTH03
+#elif (DEVICE_TYPE == DEVICE_ZTH03) || (DEVICE_TYPE == DEVICE_TH03_ZBPS10)
 
 void show_ota_screen(void);
 #define SHOW_OTA_SCREEN() show_ota_screen()

@@ -217,7 +217,7 @@ static const u8 my_SerialStr[] = {"0000-0000-0000-0007"}; // "0000-0000-0000-000
 static const u8 my_SoftStr[] = {'V','0'+(VERSION>>4),'.','0'+(VERSION&0x0f)}; // "0109"
 static const u8 my_ManStr[] = {"Tuya"};
 
-#elif DEVICE_TYPE == DEVICE_ZTH03
+#elif (DEVICE_TYPE == DEVICE_ZTH03) || (DEVICE_TYPE == DEVICE_TH03_ZBPS10)
 static const u8 my_ModelStr[] = {"TH03"};
 static const u8 my_HardStr[4] = {"V1.1"};
 #if !USE_FLASH_SERIAL_UID

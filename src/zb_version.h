@@ -64,6 +64,7 @@
 #define DEVICE_ZTH02   		28	// ZigBee ZTH02
 #define DEVICE_PLM1 		29  // Tuya BLE Plant monitor ECF-SGS01-A rev1.3 (BT3L Tuya module)
 #define DEVICE_ZTH03 		30  // Tuya TH03 Zigbee LCD
+#define DEVICE_TH03_ZBPS10 	74  // Tuya TH03 Zigbee LCD (ZBPS1.0 revision)
 #define DEVICE_LKTMZL02		31  // Tuya LKTMZL02 Zigbee LCD 2xAAA
 #define DEVICE_ZTH05Z		33  // Tuya ZTH05ZTUv12 Zigbee LCD, AHT30, CR2032
 #define DEVICE_CB3S			35  // development is not completed! TS0041_TZ3000_fa9mlvja, Tuya ZigBee "Smart Button"

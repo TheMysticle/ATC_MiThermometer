@@ -49,6 +49,7 @@ extern "C" {
 #define DEVICE_ZTH02   		28	// ZigBee ZTH02
 #define DEVICE_PLM1 		29  // Tuya BLE Plant monitor ECF-SGS01-A rev1.3 (BT3L Tuya module)
 #define DEVICE_ZTH03 		30  // Tuya TH03 Zigbee LCD
+#define DEVICE_TH03_ZBPS10 	74  // Tuya TH03 Zigbee LCD (ZBPS1.0 revision)
 #define DEVICE_LKTMZL02		31  // Tuya LKTMZL02 Zigbee LCD 2xAAA
 //#define DEVICE_KEY2		32  // KEY2 https://github.com/pvvx/THB2
 #define DEVICE_ZTH05Z		33  // Tuya ZTH05ZTUv12 Zigbee LCD, AHT30, CR2032
@@ -76,7 +77,7 @@ extern "C" {
 #define TEST_PLM1 			0  // TB03F My Plant monitor
 
 #ifndef DEVICE_TYPE
-#define DEVICE_TYPE			DEVICE_ZTH03
+#define DEVICE_TYPE			DEVICE_MJWSD05MMC_EN
 #endif
 
 // supported services by the device (bits)
@@ -1823,6 +1824,113 @@ extern "C" {
 
 #define DEV_SERVICES ( SERVICE_OTA\
 		| SERVICE_OTA_EXT \
+		| SERVICE_PINCODE \
+		| SERVICE_BINDKEY \
+		| SERVICE_HISTORY \
+		| SERVICE_SCREEN \
+		| SERVICE_LE_LR \
+		| SERVICE_THS \
+		| SERVICE_RDS \
+		| SERVICE_KEY \
+		| SERVICE_TIME_ADJUST \
+		| SERVICE_TH_TRG \
+		| SERVICE_LED \
+)
+
+#define USE_EPD				0 // min update time ms
+
+#define USE_SENSOR_CHT8305		0
+#define USE_SENSOR_CHT8215		0
+#define USE_SENSOR_AHT20_30		1
+#define USE_SENSOR_SHT4X		0
+#define USE_SENSOR_SHTC3		0
+#define USE_SENSOR_SHT30		0
+
+#define SHL_ADC_VBAT		B0P  // "B0P" in adc.h
+#define GPIO_VBAT			GPIO_PB0 // missing pin on case TLSR8253F512ET32
+#define PB0_INPUT_ENABLE	1
+#define PB0_DATA_OUT		1
+#define PB0_OUTPUT_ENABLE	1
+#define PB0_FUNC			AS_GPIO
+
+// I2C Sensor
+#define I2C_MAX_SPEED 		700000 // 700 kHz
+#define I2C_SCL 			GPIO_PC2
+#define I2C_SDA 			GPIO_PC3
+#define I2C_GROUP 			I2C_GPIO_GROUP_C2C3
+#define PULL_WAKEUP_SRC_PC2	PM_PIN_PULLUP_10K
+#define PULL_WAKEUP_SRC_PC3	PM_PIN_PULLUP_10K
+
+// I2C LCD
+#define I2C_SCL_LCD			GPIO_PB1
+#define I2C_SDA_LCD			GPIO_PB7
+#define PB1_INPUT_ENABLE	1
+#define PB1_DATA_OUT		0
+#define PB1_OUTPUT_ENABLE	0
+#define PB1_FUNC			AS_GPIO
+#define PB7_INPUT_ENABLE	1
+#define PB7_DATA_OUT		0
+#define PB7_OUTPUT_ENABLE	0
+#define PB7_FUNC			AS_GPIO
+#define PULL_WAKEUP_SRC_PB1	PM_PIN_PULLUP_10K
+#define PULL_WAKEUP_SRC_PB7	PM_PIN_PULLUP_10K
+
+#define GPIO_TRG			GPIO_PB4
+#define PB4_INPUT_ENABLE	1
+#define PB4_DATA_OUT		0
+#define PB4_OUTPUT_ENABLE	0
+#define PB4_FUNC			AS_GPIO
+#define PULL_WAKEUP_SRC_PB4	PM_PIN_PULLDOWN_100K
+
+#define GPIO_LED			GPIO_PC0
+#define PC0_INPUT_ENABLE	1
+#define PC0_DATA_OUT		1
+#define PC0_OUTPUT_ENABLE	0
+#define PC0_FUNC			AS_GPIO
+#define PULL_WAKEUP_SRC_PC0	PM_PIN_PULLDOWN_100K
+
+#if (DEV_SERVICES & SERVICE_KEY)
+// PC4 - key
+#define GPIO_KEY2			GPIO_PD4	// key "Connect"
+#define PD4_INPUT_ENABLE	1
+#define PD4_DATA_OUT		0
+#define PD4_OUTPUT_ENABLE	0
+#define PD4_FUNC			AS_GPIO
+#define PULL_WAKEUP_SRC_PD4 PM_PIN_PULLUP_1M
+
+#define RDS1_PULLUP			PM_PIN_PULLUP_1M
+#define GPIO_RDS1 			GPIO_PA0	// Reed Switch, Input
+#define PA0_INPUT_ENABLE	1
+#define PA0_DATA_OUT		0
+#define PA0_OUTPUT_ENABLE	0
+#define PA0_FUNC			AS_GPIO
+#define PULL_WAKEUP_SRC_PA0 RDS1_PULLUP
+#else
+#define RDS1_PULLUP			PM_PIN_PULLUP_1M
+#define GPIO_RDS1 			GPIO_PD4	// Reed Switch, Input
+#define PD4_INPUT_ENABLE	1
+#define PD4_DATA_OUT		0
+#define PD4_OUTPUT_ENABLE	0
+#define PD4_FUNC			AS_GPIO
+#define PULL_WAKEUP_SRC_PD4 RDS1_PULLUP
+#endif
+
+#elif DEVICE_TYPE == DEVICE_TH03_ZBPS10
+
+// TLSR8258
+// GPIO_PA0 - SDA, used I2C Sensor
+// GPIO_PA1 - SCL, used I2C LCD
+// GPIO_PA7 - SWS, (debug TX)
+// GPIO_PB0 - Sensor Power
+// GPIO_PB4 - free, (TRG)
+// GPIO_PC0 - DO NOT DRIVE!
+// GPIO_PC1 - DO NOT DRIVE!
+// GPIO_PD3 - used KEY
+// GPIO_PD4 - SCL, used I2C Sensor
+// GPIO_PD7 - SDA, used I2C LCD
+
+#define DEV_SERVICES ( SERVICE_OTA\
+		| SERVICE_OTA_EXT \
 		| SERVICE_SCREEN \
 		| SERVICE_KEY \
 		| SERVICE_THS \
@@ -1839,7 +1947,7 @@ extern "C" {
 #define USE_SENSOR_SHT30		0
 
 #define SHL_ADC_VBAT		B0P  // "B0P" in adc.h
-#define GPIO_VBAT			GPIO_PB0 // missing pin on case TLSR8253F512ET32
+#define GPIO_VBAT			GPIO_PB0 // PB0 provides power to sensor AND can be used for VBAT
 #define PB0_INPUT_ENABLE	1
 #define PB0_DATA_OUT		1
 #define PB0_OUTPUT_ENABLE	1
@@ -1883,14 +1991,6 @@ extern "C" {
 #define PB4_OUTPUT_ENABLE	0
 #define PB4_FUNC			AS_GPIO
 #define PULL_WAKEUP_SRC_PB4	PM_PIN_PULLDOWN_100K
-
-// GPIO_PC0 DISABLED - crashes TH03_ZBPS1.0 board!
-//#define GPIO_LED			GPIO_PC0
-//#define PC0_INPUT_ENABLE	1
-//#define PC0_DATA_OUT		1
-//#define PC0_OUTPUT_ENABLE	0
-//#define PC0_FUNC			AS_GPIO
-//#define PULL_WAKEUP_SRC_PC0	PM_PIN_PULLDOWN_100K
 
 #if (DEV_SERVICES & SERVICE_KEY)
 // PD3 - key
